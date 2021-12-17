@@ -417,8 +417,7 @@ class GrantPermissionsViewModel(
 
                 // Show location permission dialogs based on location permissions
                 val locationVisibilities = MutableList(NEXT_LOCATION_DIALOG) { false }
-                if (groupState.group.permGroupName == LOCATION && isLocationAccuracyEnabled() &&
-                        packageInfo.targetSdkVersion >= Build.VERSION_CODES.S) {
+                if (groupState.group.permGroupName == LOCATION && isLocationAccuracyEnabled()) {
                     if (needFgPermissions) {
                         locationVisibilities[LOCATION_ACCURACY_LAYOUT] = true
                         if (fgState != null &&
@@ -434,12 +433,6 @@ class GrantPermissionsViewModel(
                                     buttonVisibilities[ALLOW_FOREGROUND_BUTTON] = false
                                 }
                             } else {
-                                if (!fgState.affectedPermissions.contains(ACCESS_COARSE_LOCATION)) {
-                                    Log.e(LOG_TAG, "ACCESS_FINE_LOCATION must be requested " +
-                                            "with ACCESS_COARSE_LOCATION.")
-                                    value = null
-                                    return
-                                }
                                 if (coarseLocationPerm?.isOneTime == false &&
                                         !coarseLocationPerm.isUserSet &&
                                         !coarseLocationPerm.isUserFixed) {
